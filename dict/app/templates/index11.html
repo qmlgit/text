@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>扯淡翻译</title>
+
+<link rel="stylesheet" type="text/css" href="/static/style1.css">
+<script src="/static/jquery-1.11.3.js"></script>
+</head>
+
+
+<input id="inputOriginal" type="text" placeholder="请输入你要查寻的单词" style='width:800px;height:200px;color: yellow;font-size: 40px;'>
+<!--<input id="transTarget" type="text" placeholder="即将在这里显示翻译结果" style='width:800px;height:200px'>-->
+<textarea id="transTarget" style="color: blanchedalmond; background: #282E33;width: 800px;height: 210px;font-size: 30px;border-radius: 7px;border-color: #5E6C77;border-width: 2px;" type="text" placeholder="即将在这里显示翻译结果" style='width:800px;height:200px'></textarea>
+<script type="text/javascript" src="/static/index1.js"></script>
+<button id="btn" style="background: #A2ACB3"><img src="/static/chaxi.png" width="40px;" height="40px;" style="height: 50px;"></button><br><button id="btnv"><img src="/static/xiaolaba2.jpg" width="40px;" height="40px;" style="height: 50px;"> </button>
+<script>
+    $(function () {
+        //查词去翻译
+        $('#btn').click(function () {
+            var word = $('#inputOriginal').val()
+            // alert(word)
+            if(word){
+            var html = ''
+            $.get('/find?word=' + word, function (data) {
+                if (data.interpret) {
+                    html += data.interpret
+                }
+                else {
+                    html += data.msg
+                }
+                $('#transTarget').html(html)
+            }, 'json')}
+            else {alert('请输入内容')}
+        });
+        //语音
+        $('#btnv').click(function () {
+            var word = $('#inputOriginal').val()
+            $.get('/voice?word=' + word)
+            // location.href='/voice'
+        })
+    })
+</script>
+</body>
+</html>

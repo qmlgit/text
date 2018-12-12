@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/jquery-1.11.3.js"></script>
+
+</head>
+<body>
+
+
+<input id="query"><button id="btn">查找</button><button id="btnv">点我读单词</button>
+<div id="transTarget"></div>
+
+
+
+
+<script>
+    $(function () {
+        //查词去翻译
+        $('#btn').click(function () {
+            var word = $('#query').val()
+            var html = ''
+            $.get('/find?word=' + word, function (data) {
+                if (data.interpret) {
+                    html += '词义:' + data.interpret
+                }
+                else {
+                    html += data.msg
+                }
+                $('#transTarget').html(html)
+            }, 'json')
+        });
+        //语音
+        $('#btnv').click(function () {
+            var word = $('#query').val()
+            $.get('/voice?word=' + word)
+        })
+    })
+</script>
+</body>
+</html>
